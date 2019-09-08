@@ -24,6 +24,28 @@ function inventory() {
             console.log("name:" + res[i].product_name);
             console.log("price:" + res[i].price);
         }
+        purchases();
     })
 };
 
+function purchases() {
+    inquirer.prompt([{
+        type: "input",
+        name: "product_id",
+        message: "Please insert the ID of you want to buy?",
+        filter: Number
+    },
+    {
+        type: "input",
+        name: "Quantity",
+        message: "How many units of the product do you want to buy?",
+        filter: Number
+    }
+])
+.then(function(purchases){
+
+})
+
+
+
+}

@@ -44,6 +44,20 @@ function purchases() {
 ])
 .then(function(purchases){
 
+    var items_idy = purchases.product_id;
+    var item_qty = purchases.Quantity;
+    var query = "select * from products where ?";
+
+    connection.query(query, {item_id:items_idy}, function(error, res){
+        if (error) throw error;
+          if (res.length===0){
+              console.log("Error! That ID doesn't exists. Please try with a valid ID");
+              inventory();
+          }
+          else {
+
+          }
+      })
 })
 
 

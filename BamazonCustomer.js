@@ -51,11 +51,31 @@ function purchases() {
     connection.query(query, {item_id:items_idy}, function(error, res){
         if (error) throw error;
           if (res.length===0){
-              console.log("Error! That ID doesn't exists. Please try with a valid ID");
+              console.log("Error! That ID doesn't exist. Please try with a valid ID");
               inventory();
           }
-          else {
 
+          else {
+            var product_info = res[0];
+            if (item_qty<=product_info.stick_quantity) {
+                console.log(product_info.product_name + " is available in stock\n");
+                var subtract = "UPDATE products SET stick_quantity = " + (product_info.stick_quantity-item_qty) + " WHERE item_id = " + items_idy;
+                connection.query(subtract, function(error, res) {
+                    if (error) throw error;
+                    console.log("Your order has been placed");
+                    console.log("You ordered " + product_info.product_name );
+                    console.log("The quantity you ordered was " + item_qty);
+                    console.log("TOTAL: " + (product_info.price*item_qty));
+                    connection.end();
+                })
+                
+            }
+            else {
+                console.log("Your order cannot be placed, the quantity you require is not as long available in our inventory\n");
+                setTimeout(function(){
+                    inventory()
+                },5000)
+            }
           }
       })
 })
